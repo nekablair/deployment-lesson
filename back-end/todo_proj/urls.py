@@ -16,9 +16,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.http import HttpResponse
+
+def connection_test(request):
+    return HttpResponse("Test was successful we are connected")
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/users/', include("user_app.urls")),
     path("api/lists/", include("list_app.urls")),
+    path("api/test/", connection_test),
 ]

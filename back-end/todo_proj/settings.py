@@ -11,6 +11,9 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
+import os
+from dotenv import dotenv_values
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,7 +23,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-si73ng&y#a7d9xy9vuax@(4e$vd1!zw$gyqb%%y=0)(q4(d(vn'
+# SECRET_KEY = env.get("SECRET_KEY")
+# SECRET_KEY = 'django-insecure-si73ng&y#a7d9xy9vuax@(4e$vd1!zw$gyqb%%y=0)(q4(d(vn'
+SECRET_KEY = os.environ.get("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -39,21 +44,35 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework.authtoken',
+    'corsheaders',
     'list_app',
     'subtask_app',
     'task_app',
     'user_app',
+    
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
 ]
+
+#we would do this when deploying to production
+CORS_ALLOWED_ORIGINS = [
+    "https://example.com", #domain
+    "https://sub.example.com", #subdomain
+    "http://localhost:5173", #development server
+]
+
+# or to allow all origins, only during development
+# CORS_ALLOW_ALL_ORIGINS = True
 
 ROOT_URLCONF = 'todo_proj.urls'
 
